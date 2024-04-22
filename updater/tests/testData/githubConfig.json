@@ -1,0 +1,9 @@
+{
+    "name":"sceneRefactor",
+    "versioningType":"semantic",
+    "serverEndPoint":
+    {
+        "type":"github",
+        "repository":"Endaris/OsbUtilities"
+    }
+}

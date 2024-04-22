@@ -1,0 +1,25 @@
+{
+    "releaseStreams":
+    [
+        {
+            "name":"stable",
+            "versioningType": "timestamp",
+            "serverEndPoint":
+            {
+                "type": "filesystem",
+                "url": "http://panelattack.com/updates/",
+                "prefix":"panel-"
+            }
+        },
+        {
+            "name":"sceneRefactor",
+            "versioningType":"timestamp",
+            "serverEndPoint":
+            {
+                "type":"github",
+                "repository":"Endaris/panel-attack",
+                "prefix":"canary-"
+            }
+        }
+    ]
+}

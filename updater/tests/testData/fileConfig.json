@@ -1,0 +1,10 @@
+{
+    "name":"stable",
+    "versioningType": "timestamp",
+    "serverEndPoint":
+    {
+        "type": "filesystem",
+        "url": "http://panelattack.com/updates/",
+        "prefix":"panel-"
+    }
+}
