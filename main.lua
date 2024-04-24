@@ -1,4 +1,4 @@
-require("lldebugger").start()
+--require("lldebugger").start()
 --require("updater.tests.tests")
 
 local logger = require("updater.logger")
