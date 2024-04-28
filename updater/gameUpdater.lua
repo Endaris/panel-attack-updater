@@ -121,18 +121,24 @@ end
 
 local function processOngoingDownloads(self)
   for version, thread in pairs(self.downloadThreads) do
+    local threadError = thread:getError()
     local result = love.thread.getChannel(version.url):pop()
-    if result then
+    if threadError or result then
       thread:release()
       self.downloadThreads[version] = nil
-      if result.success then
-        logger:log("Successfully finished download of " .. version.url)
-        table.insert(self.releaseStreams[version.releaseStream.name].installedVersions, version)
-        self:onDownloaded(version)
-      else
-        logger:log("Download of " .. version.url .. " unsuccessful with status " .. result.status)
-        for key, value in pairs(result.headers) do
-          logger:log("Header: " .. key .. " | Value: " .. value)
+      if threadError then
+        logger:log("Failed downloading version for " .. version.releaseStream.name)
+        logger:log(threadError)
+      elseif result then
+        if result.success then
+          logger:log("Successfully finished download of " .. version.url)
+          table.insert(self.releaseStreams[version.releaseStream.name].installedVersions, version)
+          self:onDownloaded(version)
+        else
+          logger:log("Download of " .. version.url .. " unsuccessful with status " .. result.status)
+          for key, value in pairs(result.headers) do
+            logger:log("Header: " .. key .. " | Value: " .. value)
+          end
         end
       end
     end
