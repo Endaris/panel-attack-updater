@@ -81,3 +81,8 @@ function love.threaderror(thread, errorstr)
   logger:log("Thread error!\n"..errorstr)
   -- thread:getError() will return the same error string now.
 end
+
+
+function love.quit()
+  logger:write()
+end

@@ -6,8 +6,12 @@ local logger = {
 }
 
 function logger:log(message)
-  self.messages[#self.messages+1] = string.format("%.3f", love.timer.getTime()) .. ": " .. message
-  print(message)
+  if message then
+    self.messages[#self.messages+1] = string.format("%.3f", love.timer.getTime()) .. ": " .. message
+    print(message)
+  else
+    print("tried to log nil value")
+  end
 end
 
 function logger:write()
