@@ -142,14 +142,20 @@ end
 local function processOngoingAvailableVersionsFetches(self)
   for releaseStreamName, thread in pairs(self.releaseThreads) do
     logger:log("Polling results for fetching available versions of releaseStream " .. releaseStreamName)
+    local threadError = thread:getError()
     local result = love.thread.getChannel(releaseStreamName):pop()
-    if result then
+    if threadError or result then
       thread:release()
       self.releaseThreads[releaseStreamName] = nil
-      logger:log("Fetched " .. #result .. " available versions for " .. releaseStreamName)
-      self.releaseStreams[releaseStreamName].availableVersions = result
-      for i = 1, #result do
-        result[i].releaseStream = self.releaseStreams[releaseStreamName]
+      if threadError then
+        logger:log("Failed fetching available versions for " .. releaseStreamName)
+        logger:log(threadError)
+      elseif result then
+        logger:log("Fetched " .. #result .. " available versions for " .. releaseStreamName)
+        self.releaseStreams[releaseStreamName].availableVersions = result
+        for i = 1, #result do
+          result[i].releaseStream = self.releaseStreams[releaseStreamName]
+        end
       end
     end
   end
