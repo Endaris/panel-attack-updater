@@ -167,7 +167,16 @@ local function processOngoingAvailableVersionsFetches(self)
   end
 end
 
+local function processLoggingMessages(self)
+  local msg = love.thread.getChannel("logging"):pop()
+  while msg do
+    logger:log(msg)
+    msg = love.thread.getChannel("logging"):pop()
+  end
+end
+
 function GameUpdater:update()
+  processLoggingMessages(self)
   if self.state ~= GAME_UPDATER_STATES.idle then
     processOngoingDownloads(self)
     processOngoingAvailableVersionsFetches(self)
@@ -194,7 +203,8 @@ end
 -- compares the releaseStream's installed versions with the availableVersions table
 -- the availableVersions table needs to be populated via releaseStream:getAvailableVersions before
 function GameUpdater:updateAvailable(releaseStream)
-  if not releaseStream.availableVersions then
+  logger:log("Checking for available updates for release stream " .. releaseStream.name)
+  if not releaseStream.availableVersions or #releaseStream.availableVersions == 0 then
     logger:log("Failed to find any available versions for release stream " .. releaseStream.name)
     return false
   else
@@ -206,8 +216,10 @@ function GameUpdater:updateAvailable(releaseStream)
     local latestOnline = availableVersions[#availableVersions]
 
     if not latestInstalled then
+      logger:log("No version installed yet")
       return latestOnline
     else
+      logger:log("Latest installed version is " .. latestInstalled.version)
       return latestInstalled.version < latestOnline.version
     end
   end
@@ -222,6 +234,7 @@ function GameUpdater:launch(version)
   else
     self.activeVersion = version
     self:writeLaunchConfig(version)
+    logger:log("Launching version " .. version.version .. " of releaseStream " .. version.releaseStream.name)
     pcall(logger.write, logger)
     package.loaded.main = nil
     package.loaded.conf = nil

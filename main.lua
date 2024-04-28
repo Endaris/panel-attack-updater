@@ -53,9 +53,11 @@ function love.update(dt)
   else
     if GAME_UPDATER:updateAvailable(GAME_UPDATER.activeReleaseStream) then
       -- auto update
+      logger:log("New update available")
       table.sort(GAME_UPDATER.activeReleaseStream.availableVersions, function(a,b) return a.version > b.version end)
       GAME_UPDATER:downloadVersion(GAME_UPDATER.activeReleaseStream.availableVersions[1])
     else
+      logger:log("No updates available")
       GAME_UPDATER:launch(GAME_UPDATER.activeVersion)
     end
   end
@@ -68,9 +70,9 @@ function love.draw()
 end
 
 function love.errorhandler(msg)
-  -- if lldebugger then
-  --   error(msg, 2)
-  -- else
+  --if lldebugger then
+  --  error(msg, 2)
+  --else
     logger:log(msg)
     pcall(logger.write, logger)
     return love_errorhandler(msg)
