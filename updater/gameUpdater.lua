@@ -29,12 +29,13 @@ local function readReleaseStreamConfig()
   if not releaseStreamConfig then
     error("Could not read releaseStreams.json, please validate it")
   else
+    logger:log("Found " .. #releaseStreamConfig.releaseStreams .. " configured release streams")
+
     local releaseStreams = {}
     for _, config in ipairs(releaseStreamConfig.releaseStreams) do
       releaseStreams[config.name] = loadReleaseStream(config)
       releaseStreams[config.name].config = config
     end
-    logger:log("Found " .. #releaseStreams .. " configured release streams")
     return releaseStreams
   end
 end
@@ -145,7 +146,7 @@ local function processOngoingAvailableVersionsFetches(self)
     if result then
       thread:release()
       self.releaseThreads[releaseStreamName] = nil
-      logger:log("Fetched available versions for " .. releaseStreamName)
+      logger:log("Fetched " .. #result .. " available versions for " .. releaseStreamName)
       self.releaseStreams[releaseStreamName].availableVersions = result
       for i = 1, #result do
         result[i].releaseStream = self.releaseStreams[releaseStreamName]
@@ -192,7 +193,11 @@ function GameUpdater:updateAvailable(releaseStream)
     table.sort(availableVersions, function(a,b) return a.version < b.version end)
     local latestOnline = availableVersions[#availableVersions]
 
-    return latestInstalled.version < latestOnline.version
+    if not latestInstalled then
+      return latestOnline
+    else
+      return latestInstalled.version < latestOnline.version
+    end
   end
 end
 
@@ -205,6 +210,7 @@ function GameUpdater:launch(version)
   else
     self.activeVersion = version
     self:writeLaunchConfig(version)
+    pcall(logger.write, logger)
     package.loaded.main = nil
     package.loaded.conf = nil
     love.conf = nil

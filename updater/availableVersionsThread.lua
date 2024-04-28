@@ -1,3 +1,9 @@
+-- for macos we need to append the source directory to use our .so file in 
+-- the exported version
+require("love.system")
+if love.system.getOS() == 'OS X' and love.filesystem.isFused() then
+  package.cpath = package.cpath .. ';' .. love.filesystem.getSourceBaseDirectory() .. '/?.so'
+end
 local loadReleaseStream = require("updater.releaseStream")
 
 local releaseStreamConfig = ...

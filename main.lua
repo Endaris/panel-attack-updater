@@ -1,3 +1,10 @@
+--- for macos we need to append the source directory to use our .so file in 
+-- the exported version
+if love.system.getOS() == 'OS X' and love.filesystem.isFused() then
+  package.cpath = package.cpath .. ';' .. love.filesystem.getSourceBaseDirectory() .. '/?.so'
+end
+-- for debugging, use love 12 so that https is automatically available in the correct location
+
 --require("lldebugger").start()
 --require("updater.tests.tests")
 
@@ -18,7 +25,6 @@ GAME_UPDATER = require("updater.gameUpdater")
 local loadingIndicator = require("loadingIndicator")
 local bigFont = love.graphics.newFont(24)
 local updateString = ""
-
 
 function love.load(args)
   loadingIndicator:setDrawPosition(love.graphics:getDimensions())
@@ -57,18 +63,21 @@ end
 
 local width, height = love.graphics.getDimensions()
 function love.draw()
-
   love.graphics.printf(updateString, bigFont, 0, height / 2 - 12, width, "center")
-
   loadingIndicator:draw()
 end
 
 function love.errorhandler(msg)
-  if lldebugger then
-    error(msg, 2)
-  else
+  -- if lldebugger then
+  --   error(msg, 2)
+  -- else
     logger:log(msg)
     pcall(logger.write, logger)
     return love_errorhandler(msg)
-  end
+  --end
+end
+
+function love.threaderror(thread, errorstr)
+  logger:log("Thread error!\n"..errorstr)
+  -- thread:getError() will return the same error string now.
 end

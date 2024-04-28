@@ -7,7 +7,13 @@ return {
   --output = '../dev-build', -- output location for your game, defaults to $SAVE_DIRECTORY
   version = '1.0', -- 'version' of your game, used to make a version folder in output
   love = '11.5', -- version of LÖVE to use, must match github releases
-  ignore = {'updater/tests', '.DS_Store', '.gitignore', '.vscode', 'https'}, -- folders/files to ignore in your project
+  ignore = { -- folders/files to ignore in your project
+    'updater/tests',
+    '.DS_Store',
+    '.gitignore',
+    '.vscode',
+    'https'
+  },
   icon = 'icon.png', -- 256x256px PNG icon for game, will be converted for you
 
   -- optional settings:
@@ -16,7 +22,7 @@ return {
     windows = {'https/win64/https.dll'}, -- can specify per platform or "all"
     macos = {'https/macos/https.so'},
     linux = {'https/linux/https.so'}
-  }
+  },
 
-  --platforms = {'linux'} -- set if you only want to build for a specific platform
+  platforms = {'macos'} -- set if you only want to build for a specific platform
 }

@@ -1,3 +1,6 @@
+-- mount source dir for any dll files
+-- this is so macos/linux pickup the .so file within the output
+love.filesystem.mount(love.filesystem.getSourceBaseDirectory(), "platformSpecificLibs")
 local loadReleaseStream = require("updater.releaseStream")
 local json = require("updater.libs.json")
 local https = require("https")
