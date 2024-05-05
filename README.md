@@ -103,3 +103,29 @@ The updater basically launching the game in itself and aiming to provide control
 Normally that is the standard but on Android this can be compromised through having diverging `externalstorage` settings.  
 Due to that it is basically impossible to change your mind on this setting later on without explicitly asking your users to redownload the updater with a new setting (and that still does not migrate their data to the new save directory!).  
 Regardless of which setting you choose, the files will be relatively inaccessible for writing, however, with `externalstorage` set to `true` it is quite a bit easier for users to at least read them.
+
+# Distribution
+
+## love-build
+
+This project's `build.lua` is a config file for use with [love-build](https://github.com/ellraiser/love-build).
+
+## Supporting unsecured http
+
+The used [https library](https://github.com/love2d/lua-https) depends on OS specific implementations and thus extra steps have to be taken, specifically on Mac OS X, to allow requests to unsecured endpoints.  
+The respective implementation defaults the `NSExceptionAllowsInsecureHTTPLoads` key responsible for toggling the behaviour to `false`, making requests to unsecured http servers fail with status code 0.  
+After packaging the project with love-build, the resulting artifact for Mac can be unzipped and the pseudo-xml `Contents/Info.plist` can be supplied with domain specific exceptions for this behaviour, e.g.:
+```Xml
+<key>NSAppTransportSecurity</key>
+<dict>
+    <key>NSExceptionDomains</key>
+    <dict>
+        <key>yourdomain.com</key>
+        <dict>
+            <key>NSExceptionAllowsInsecureHTTPLoads</key>
+            <true/>
+        </dict>
+    </dict>
+</dict>
+```
+After rezipping, unsecured http requests against that domain will work, additional configuration options can be found in [Apple's documentation](https://developer.apple.com/library/archive/documentation/General/Reference/InfoPlistKeyReference/Articles/CocoaKeys.html#//apple_ref/doc/uid/TP40009251-SW44)

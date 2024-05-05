@@ -24,5 +24,5 @@ return {
     linux = {'https/linux/https.so'}
   },
 
-  platforms = {'macos'} -- set if you only want to build for a specific platform
+  platforms = {'linux', 'windows, macos'} -- set if you only want to build for a specific platform
 }
