@@ -12,12 +12,22 @@
             }
         },
         {
-            "name":"sceneRefactor",
+            "name":"beta",
+            "versioningType": "timestamp",
+            "serverEndPoint":
+            {
+                "type": "filesystem",
+                "url": "http://panelattack.com/beta-updates/",
+                "prefix":"panel-beta-"
+            }
+        },
+        {
+            "name":"canary",
             "versioningType":"timestamp",
             "serverEndPoint":
             {
                 "type":"github",
-                "repository":"Endaris/panel-attack",
+                "repository":"panel-attack/panel-attack",
                 "prefix":"canary-"
             }
         }
