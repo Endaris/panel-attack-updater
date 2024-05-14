@@ -25,6 +25,7 @@ GAME_UPDATER = require("updater.gameUpdater")
 local loadingIndicator = require("loadingIndicator")
 local bigFont = love.graphics.newFont(24)
 local updateString = ""
+local stuck = false
 
 function love.load(args)
   loadingIndicator:setDrawPosition(love.graphics:getDimensions())
@@ -51,14 +52,22 @@ function love.update(dt)
       updateString = "Downloading new version..."
     end
   else
-    if GAME_UPDATER:updateAvailable(GAME_UPDATER.activeReleaseStream) then
-      -- auto update
-      logger:log("New update available")
-      table.sort(GAME_UPDATER.activeReleaseStream.availableVersions, function(a,b) return a.version > b.version end)
-      GAME_UPDATER:downloadVersion(GAME_UPDATER.activeReleaseStream.availableVersions[1])
-    else
-      logger:log("No updates available")
-      GAME_UPDATER:launch(GAME_UPDATER.activeVersion)
+    if not stuck then
+      if GAME_UPDATER:updateAvailable(GAME_UPDATER.activeReleaseStream) then
+        -- auto update
+        logger:log("New update available")
+        table.sort(GAME_UPDATER.activeReleaseStream.availableVersions, function(a,b) return a.version > b.version end)
+        GAME_UPDATER:downloadVersion(GAME_UPDATER.activeReleaseStream.availableVersions[1])
+      else
+        logger:log("No updates available")
+        if GAME_UPDATER.activeVersion then
+          GAME_UPDATER:launch(GAME_UPDATER.activeVersion)
+        else
+          updateString = "No version available.\nPlease check your internet connection and try again."
+          stuck = true
+          loadingIndicator.draw = function () end
+        end
+      end
     end
   end
 end
