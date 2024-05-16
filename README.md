@@ -129,3 +129,7 @@ After packaging the project with love-build, the resulting artifact for Mac can 
 </dict>
 ```
 After rezipping, unsecured http requests against that domain will work, additional configuration options can be found in [Apple's documentation](https://developer.apple.com/library/archive/documentation/General/Reference/InfoPlistKeyReference/Articles/CocoaKeys.html#//apple_ref/doc/uid/TP40009251-SW44)
+
+## Enabling highdpi
+
+In love 12, the love.window `highdpi` flag got deprecated in favor of a more universal flag in the `love.conf` that may also work on Windows under certain circumstances. Due to this it is currently no longer possible to toggle `highdpi` afterwards as the main game inherits the window.
