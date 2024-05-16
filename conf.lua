@@ -23,7 +23,7 @@ function love.conf(t)
   t.accelerometerjoystick = false -- Enable the accelerometer on iOS and Android by exposing it as a Joystick (boolean)
   t.externalstorage = UseAndroidExternalStorage -- True to save files (and read from the save directory) in external storage on Android (boolean)
   t.gammacorrect = false -- Enable gamma-correct rendering, when supported by the system (boolean)
-  t.highdpi = false -- Enable high-dpi mode for the window on a Retina display (boolean)
+  t.highdpi = true -- Enable high-dpi mode for the window on a Retina display (boolean)
 
   t.audio.mic = false -- Request and use microphone capabilities in Android (boolean)
   t.audio.mixwithsystem = false -- Keep background music playing when opening LOVE (boolean, iOS and Android only)
