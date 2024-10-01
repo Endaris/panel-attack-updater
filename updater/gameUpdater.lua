@@ -2,6 +2,7 @@ local lfs = love.filesystem
 local json = require("updater.libs.json")
 local loadReleaseStream = require("updater.releaseStream")
 local logger = require("updater.logger")
+local semanticVersion = require("updater.semanticVersion")
 
 local GameUpdater = {
   path = "updater/",
@@ -9,7 +10,8 @@ local GameUpdater = {
   downloadThreads = {},
   releaseThreads = {},
   onDownloadedCallbacks = {},
-  state = GAME_UPDATER_STATES.idle
+  state = GAME_UPDATER_STATES.idle,
+  version = semanticVersion.toVersion("1.0")
 }
 
 function GameUpdater:onDownloaded(version)

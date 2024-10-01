@@ -66,7 +66,7 @@ This was implemented against the standard html presentation of a readable direct
 The body of the response to a GET request on the requested `url` will be matched with `'href="' .. prefix .. "[^%s%.].love"` and all matches will be interpreted as versions.  
 The part inbetween that is getting matched by `[^%s%.]` is used as the string representation of the version.
 
-## config.json
+## launch.json
 
 Stores the user's current starting configuration.
 
