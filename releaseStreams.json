@@ -7,7 +7,7 @@
             "serverEndPoint":
             {
                 "type": "filesystem",
-                "url": "http://panelattack.com/updates/",
+                "url": "https://panelattack.com/downloads/updates/stable",
                 "prefix":"panel-"
             }
         },
@@ -17,7 +17,7 @@
             "serverEndPoint":
             {
                 "type": "filesystem",
-                "url": "http://panelattack.com/beta-updates/",
+                "url": "https://panelattack.com/downloads/updates/beta",
                 "prefix":"panel-beta-"
             }
         },
