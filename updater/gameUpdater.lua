@@ -3,6 +3,7 @@ local json = require("updater.libs.json")
 local loadReleaseStream = require("updater.releaseStream")
 local logger = require("updater.logger")
 local semanticVersion = require("updater.semanticVersion")
+require("love.thread")
 
 local GameUpdater = {
   path = "updater/",
@@ -238,7 +239,7 @@ function GameUpdater:launch(version)
     self:writeLaunchConfig(version)
     logger:log("Launching version " .. version.version .. " of releaseStream " .. version.releaseStream.name)
     pcall(logger.write, logger)
-    love.event.restart(version.path)
+    love.event.restart({ restartSource = "updater", startUpFile = version.path})
   end
 end
 

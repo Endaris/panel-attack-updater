@@ -51,6 +51,11 @@ function love.update(dt)
     else
       updateString = "Downloading new version..."
     end
+  elseif love.restart and love.restart.restartSource == "updater" then
+    updateString = "Something went wrong while trying to start game file " .. (love.restart.startUpFile or "")
+    stuck = true
+    love.restart = nil
+    loadingIndicator.draw = function () end
   else
     if not stuck then
       if GAME_UPDATER:updateAvailable(GAME_UPDATER.activeReleaseStream) then

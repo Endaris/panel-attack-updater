@@ -1,15 +1,21 @@
--- for debugging in visual studio code
---pcall(function()
-  if not lldebugger then
-    require("lldebugger").start()
-  end
---end)
-
-if love.restart and love.filesystem.exists(love.restart) then
-  if love.filesystem.mount(love.restart, '') then
-    require("conf")
-    GAME_UPDATER = require("updater.gameUpdater")
+if love.restart then
+  -- Set the identity before loading the config file
+  -- as we need it set to get to the correct load directory.
+  love.filesystem.setIdentity("Panel Attack")
+  if love.filesystem.mount(love.restart.startUpFile, '') then
+    -- we're in a call to require("conf") here which means we cannot read the game conf that way
+    -- so instead do something dirty:
+    -- we prepended the startUpFile path so its conf.lua is found over the updater's conf.lua
+    local conf = love.filesystem.read("conf.lua")
+    -- and then we can just read the file into a function
+    local applyGameConfig = loadstring(conf)
+    -- and execute it to overwrite love.conf with the game's
+    applyGameConfig()
+    -- love.conf is basically being called right after this
+    -- and every following require will instead find game files over updater files
+    love.restart = nil
     GAME_UPDATER_STATES = { idle = 0, checkingForUpdates = 1, downloading = 2}
+    GAME_UPDATER = require("updater.gameUpdater")
     return
   end
 end
