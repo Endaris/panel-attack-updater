@@ -1,4 +1,5 @@
-A somewhat generic updater for love games without dependencies, mostly intended for games with an open/free license.  
+~~A somewhat generic updater for love games without dependencies, mostly intended for games with an open/free license.~~  
+The updater for the game Panel Attack. You can adapt it for other love games relatively easily.
 Some of the options may seem impractical, alien and overly specific for how bad of a solution they present.  
 They were mainly implemented to serve the predecessor of this tool without having to change the server side of things in the same go in order to let users migrate to the new updater at their own pace.
 
