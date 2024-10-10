@@ -1,27 +1,26 @@
-local function readUseAndroidExternalStorage()
-  if love.filesystem.getInfo("UseAndroidExternalStorage", "file") then
-    local file = love.filesystem.newFile("UseAndroidExternalStorage")
-    file:open("r")
-    local result = file:read(file:getSize())
-    file:close()
-    return (result == "true" or result == "True")
-  else
-    return true
+-- for debugging in visual studio code
+--pcall(function()
+  if not lldebugger then
+    require("lldebugger").start()
+  end
+--end)
+
+if love.restart and love.filesystem.exists(love.restart) then
+  if love.filesystem.mount(love.restart, '') then
+    require("conf")
+    GAME_UPDATER = require("updater.gameUpdater")
+    GAME_UPDATER_STATES = { idle = 0, checkingForUpdates = 1, downloading = 2}
+    return
   end
 end
 
-function love.conf(t)
-  -- only read from file on initial boot - afterwards respect whatever was set before reboot
-  if UseAndroidExternalStorage == nil then
-    UseAndroidExternalStorage = readUseAndroidExternalStorage()
-  end
-
+love.conf = function(t)
   t.identity = "Panel Attack" -- The name of the save directory (string)
   t.appendidentity = false -- Search files in source directory before save directory (boolean)
   t.version = "12.0" -- The LÖVE version this game was made for (string)
   t.console = false -- Attach a console (boolean, Windows only)
   t.accelerometerjoystick = false -- Enable the accelerometer on iOS and Android by exposing it as a Joystick (boolean)
-  t.externalstorage = UseAndroidExternalStorage -- True to save files (and read from the save directory) in external storage on Android (boolean)
+  t.externalstorage = true -- True to save files (and read from the save directory) in external storage on Android (boolean)
   t.gammacorrect = false -- Enable gamma-correct rendering, when supported by the system (boolean)
   t.highdpi = true -- Enable high-dpi mode for the window on a Retina display (boolean)
 

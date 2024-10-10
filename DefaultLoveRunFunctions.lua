@@ -9,7 +9,7 @@ function DefaultLoveRunFunctions.innerRun()
     for name, a,b,c,d,e,f in love.event.poll() do
       if name == "quit" then
         if not love.quit or not love.quit() then
-          return a or 0
+          return a or 0, b
         end
       end
       love.handlers[name](a,b,c,d,e,f)
@@ -17,7 +17,7 @@ function DefaultLoveRunFunctions.innerRun()
   end
 
   -- Update dt, as we'll be passing it to update
-  if love.timer then dt = love.timer.step() end
+  local dt = love.timer and love.timer.step() or 0
 
   -- Call update and draw
   if love.update then love.update(dt) end -- will pass 0 if love.timer is disabled
@@ -38,16 +38,10 @@ end
 -- We have broken it up into calling a inner function so we can change the inner function in the game love file to override behavior
 -- If you change this function also change CustomRun's equivalent method
 function DefaultLoveRunFunctions.run()
-  if love.load then
-    love.load(love.arg.parseGameArguments(arg), arg)
-  end
+  if love.load then love.load(love.parsedGameArguments, love.rawGameArguments) end
 
-  -- We don't want the first frame's dt to include time taken by love.load.
-  if love.timer then
-    love.timer.step()
-  end
-
-  dt = 0
+	-- We don't want the first frame's dt to include time taken by love.load.
+	if love.timer then love.timer.step() end
 
   -- Main loop time.
   return function()

@@ -238,12 +238,7 @@ function GameUpdater:launch(version)
     self:writeLaunchConfig(version)
     logger:log("Launching version " .. version.version .. " of releaseStream " .. version.releaseStream.name)
     pcall(logger.write, logger)
-    package.loaded.main = nil
-    package.loaded.conf = nil
-    love.conf = nil
-    love.init()
-    -- command line args for love are saved inside a global arg table
-    love.load(arg)
+    love.event.restart(version.path)
   end
 end
 

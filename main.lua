@@ -15,8 +15,8 @@ local logger = require("updater.logger")
 -- however, fully restarting would mean that the game updater cannot leave a global behind for the main game to use
 local DefaultLoveRunFunctions = require("DefaultLoveRunFunctions")
 -- leave behind a reference to the mainloop on the love global that the main game can overwrite with its own mainloop
-love.runInternal = DefaultLoveRunFunctions.innerRun
-love.run = DefaultLoveRunFunctions.run
+--love.runInternal = DefaultLoveRunFunctions.innerRun
+--love.run = DefaultLoveRunFunctions.run
 local love_errorhandler = love.errorhandler
 
 GAME_UPDATER_STATES = { idle = 0, checkingForUpdates = 1, downloading = 2}
