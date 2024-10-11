@@ -5,18 +5,13 @@ if love.system.getOS() == 'OS X' and love.filesystem.isFused() then
 end
 -- for debugging, use love 12 so that https is automatically available in the correct location
 
---require("lldebugger").start()
+if os.getenv("LOCAL_LUA_DEBUGGER_VSCODE") == "1" then
+  require("lldebugger").start()
+end
 --require("updater.tests.tests")
 
 local logger = require("updater.logger")
 
--- love run needs to be overwritten before it can run because it runs only ONCE
--- after that the mainloop can no longer be overwritten without fully restarting
--- however, fully restarting would mean that the game updater cannot leave a global behind for the main game to use
-local DefaultLoveRunFunctions = require("DefaultLoveRunFunctions")
--- leave behind a reference to the mainloop on the love global that the main game can overwrite with its own mainloop
---love.runInternal = DefaultLoveRunFunctions.innerRun
---love.run = DefaultLoveRunFunctions.run
 local love_errorhandler = love.errorhandler
 
 GAME_UPDATER_STATES = { idle = 0, checkingForUpdates = 1, downloading = 2}

@@ -246,13 +246,17 @@ end
 -- tries to remove the specified version from disk
 -- returns true if it was found and removed
 -- returns false if the version could not be found (and thus not removed)
-function GameUpdater:removeInstalledVersion(version)
-  if version and version.releaseStream and self.releaseStreams[version.releaseStream.name] then
-    for versionString, installedVersion in pairs(version.releaseStream.installedVersions) do
-      if installedVersion.version == version then
-        love.filesystem.remove(installedVersion.path)
-        version.releaseStream.installedVersions[versionString] = nil
-        return true
+function GameUpdater:removeInstalledVersion(versionInfo)
+  if versionInfo and versionInfo.releaseStream and self.releaseStreams[versionInfo.releaseStream.name] then
+    local releaseStream = self.releaseStreams[versionInfo.releaseStream.name]
+    for versionString, installedVersion in pairs(releaseStream.installedVersions) do
+      if installedVersion.version == versionInfo.version then
+        if love.filesystem.remove(installedVersion.path) then
+          -- also remove the directory in which the game file was present
+          love.filesystem.remove(self.path .. "/" .. versionInfo.releaseStream.name .. "/" .. versionString)
+          releaseStream.installedVersions[versionString] = nil
+          return true
+        end
       end
     end
   end
