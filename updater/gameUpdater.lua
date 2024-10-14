@@ -87,6 +87,10 @@ function GameUpdater:init()
   self.releaseStreams = readReleaseStreamConfig()
   local activeReleaseStreamName, activeVersionString = readLaunchConfig()
   for name, releaseStream in pairs(self.releaseStreams) do
+    if not love.filesystem.getInfo(self.path .. name, "directory") then
+      love.filesystem.createDirectory(self.path .. name)
+    end
+
     local installedVersions = releaseStream:getInstalledVersions(self.path)
     releaseStream.installedVersions = installedVersions
 

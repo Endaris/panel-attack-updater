@@ -61,6 +61,12 @@ function love.update(dt)
       else
         logger:log("No updates available")
         if GAME_UPDATER.activeVersion then
+          local v = GAME_UPDATER.activeVersion
+          if love.filesystem.getRealDirectory(v.path) ~= love.filesystem.getSaveDirectory() then
+            love.filesystem.createDirectory(GAME_UPDATER.path .. v.releaseStream.name .. "/" .. tostring(v.version))
+            local file = love.filesystem.read(v.path)
+            love.filesystem.write(v.path, file)
+          end
           GAME_UPDATER:launch(GAME_UPDATER.activeVersion)
         else
           updateString = "No version available.\nPlease check your internet connection and try again."

@@ -1,7 +1,7 @@
 ~~A somewhat generic updater for love games without dependencies, mostly intended for games with an open/free license.~~  
 The updater for the game Panel Attack. You can adapt it for other love games relatively easily.
 Some of the options may seem impractical, alien and overly specific for how bad of a solution they present.  
-They were mainly implemented to serve the predecessor of this tool without having to change the server side of things in the same go in order to let users migrate to the new updater at their own pace.
+They were (at least partially) implemented to serve the predecessor of this tool without having to change the server side of things in the same go in order to let users migrate to the new updater at their own pace.
 
 # Configuration
 
@@ -129,8 +129,4 @@ After packaging the project with love-build, the resulting artifact for Mac can 
     </dict>
 </dict>
 ```
-After rezipping, unsecured http requests against that domain will work, additional configuration options can be found in [Apple's documentation](https://developer.apple.com/library/archive/documentation/General/Reference/InfoPlistKeyReference/Articles/CocoaKeys.html#//apple_ref/doc/uid/TP40009251-SW44)
-
-## Enabling highdpi
-
-In love 12, the love.window `highdpi` flag got deprecated in favor of a more universal flag in the `love.conf` that may also work on Windows under certain circumstances. Due to this it is currently no longer possible to toggle `highdpi` afterwards as the main game inherits the window.
+After rezipping, unsecured http requests against that domain will work, additional configuration options can be found in [Apple's documentation](https://developer.apple.com/library/archive/documentation/General/Reference/InfoPlistKeyReference/Articles/CocoaKeys.html#//apple_ref/doc/uid/TP40009251-SW44).

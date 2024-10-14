@@ -18,12 +18,13 @@ return {
 
   -- optional settings:
   use32bit = false, -- set true to build windows 32-bit as well as 64-bit
-  --[[
+
   libs = { -- files to place in output directly rather than fuse
-    windows = {'https/win64/https.dll'}, -- can specify per platform or "all"
-    macos = {'https/macos/https.so'},
-    linux = {'https/linux/https.so'}
-  },]]
+   -- windows = {'https/win64/https.dll'}, -- can specify per platform or "all"
+   -- macos = {'https/macos/https.so'},
+   -- linux = {'https/linux/https.so'}
+   all = {}
+  },
 
   platforms = {'linux', 'windows, macos'} -- set if you only want to build for a specific platform
 }
