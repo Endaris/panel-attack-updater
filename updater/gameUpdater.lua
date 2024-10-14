@@ -39,7 +39,7 @@ local function readReleaseStreamConfig()
       releaseStreams[config.name] = loadReleaseStream(config)
       releaseStreams[config.name].config = config
     end
-    return releaseStreams
+    return releaseStreams, releaseStreamConfig.default
   end
 end
 
@@ -84,7 +84,9 @@ function GameUpdater:init()
     lfs.write("updater/launch.json", launchJson)
   end
 
-  self.releaseStreams = readReleaseStreamConfig()
+  local defaultName
+  self.releaseStreams, defaultName = readReleaseStreamConfig()
+  self.defaultReleaseStream = self.releaseStreams[defaultName]
   local activeReleaseStreamName, activeVersionString = readLaunchConfig()
   for name, releaseStream in pairs(self.releaseStreams) do
     if not love.filesystem.getInfo(self.path .. name, "directory") then

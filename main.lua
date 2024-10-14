@@ -62,6 +62,8 @@ function love.update(dt)
         logger:log("No updates available")
         if GAME_UPDATER.activeVersion then
           local v = GAME_UPDATER.activeVersion
+          -- if the active version is an embedded version, we got to copy it to the save directory first
+          -- otherwise it won't be mountable
           if love.filesystem.getRealDirectory(v.path) ~= love.filesystem.getSaveDirectory() then
             love.filesystem.createDirectory(GAME_UPDATER.path .. v.releaseStream.name .. "/" .. tostring(v.version))
             local file = love.filesystem.read(v.path)
@@ -69,9 +71,17 @@ function love.update(dt)
           end
           GAME_UPDATER:launch(GAME_UPDATER.activeVersion)
         else
-          updateString = "No version available.\nPlease check your internet connection and try again."
-          stuck = true
-          loadingIndicator.draw = function () end
+          if GAME_UPDATER.activeReleaseStream.name == GAME_UPDATER.defaultReleaseStream.name then
+            updateString = "No version available.\nPlease check your internet connection and try again."
+            stuck = true
+            loadingIndicator.draw = function () end
+          else
+            GAME_UPDATER.activeReleaseStream = GAME_UPDATER.defaultReleaseStream
+            local latest = GAME_UPDATER.getLatestInstalledVersion(GAME_UPDATER.defaultReleaseStream)
+            if latest then
+              GAME_UPDATER.activeVersion = latest
+            end
+          end
         end
       end
     end

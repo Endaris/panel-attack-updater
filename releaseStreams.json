@@ -31,5 +31,6 @@
                 "prefix":"canary-"
             }
         }
-    ]
+    ],
+    "default": "stable"
 }
