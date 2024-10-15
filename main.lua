@@ -75,6 +75,7 @@ function love.update(dt)
             updateString = "No version available.\nPlease check your internet connection and try again."
             stuck = true
             loadingIndicator.draw = function () end
+            pcall(logger.write, logger)
           else
             GAME_UPDATER.activeReleaseStream = GAME_UPDATER.defaultReleaseStream
             local latest = GAME_UPDATER.getLatestInstalledVersion(GAME_UPDATER.defaultReleaseStream)
