@@ -2,7 +2,7 @@ local externalstorage = true
 
 function love.conf(t)
   if love.restart then
-    love.filesystem._setAndroidStorageExternal(externalstorage)
+    love.filesystem._setAndroidSaveExternal(externalstorage)
     love.filesystem.setIdentity("Panel Attack")
     if love.filesystem.mount(love.restart.startUpFile, '') then
       -- the mount prepends the priority list of locations to check for file paths
