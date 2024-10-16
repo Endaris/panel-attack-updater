@@ -1,5 +1,8 @@
+local externalstorage = true
+
 function love.conf(t)
   if love.restart then
+    love.filesystem._setAndroidStorageExternal(externalstorage)
     love.filesystem.setIdentity("Panel Attack")
     if love.filesystem.mount(love.restart.startUpFile, '') then
       -- the mount prepends the priority list of locations to check for file paths
@@ -19,7 +22,7 @@ function love.conf(t)
     t.version = "12.0" -- The LÖVE version this game was made for (string)
     t.console = false -- Attach a console (boolean, Windows only)
     t.accelerometerjoystick = false -- Enable the accelerometer on iOS and Android by exposing it as a Joystick (boolean)
-    t.externalstorage = true -- True to save files (and read from the save directory) in external storage on Android (boolean)
+    t.externalstorage = externalstorage -- True to save files (and read from the save directory) in external storage on Android (boolean)
     t.gammacorrect = false -- Enable gamma-correct rendering, when supported by the system (boolean)
     t.highdpi = true -- Enable high-dpi mode for the window on a Retina display (boolean)
 
