@@ -7,7 +7,8 @@ They were (at least partially) implemented to serve the predecessor of this tool
 
 ## releaseStreams.json
 
-Configure `releaseStreams.json` to decide which different release streams exist, from which source they update and how they are versioned.
+Configure `releaseStreams.json` to decide which different release streams exist, from which source they update and how they are versioned.  
+The `default` key specifies which release stream the updater should try to use in case the currently active release stream somehow has nothing available locally nor remotely.
 
 ```Json
 {
@@ -32,7 +33,8 @@ Configure `releaseStreams.json` to decide which different release streams exist,
                 "prefix":"example-"
             }
         }
-    ]
+    ],
+    "default": "stable"
 }
 ```
 
@@ -46,10 +48,11 @@ For versioningType there are currently 2 supported settings.
 #### semantic
 For semantic versioning, `major.minor.patch-prereleasestring+metadata`.  
 Your semantic version must specify at least `major.minor`.  
-If you wish to utilize prerelease and metadata, you must specify the full `major.minor.patch` before it, e.g. `1.0-alpha` is not valid but `1.0.0-alpha` is.
+If you wish to utilize prerelease and metadata, you must specify the full `major.minor.patch` before it, e.g. `1.0-alpha` is not valid but `1.0.0-alpha` is.  
 
 #### timestamp
-For versioning in a custom datetime format suitable to be used in file names, `yyyy-MM-dd_hh-mm-ss`
+For versioning in a custom datetime format suitable to be used in file names, `yyyy-MM-dd_hh-mm-ss`.
+Locally this will be converted to a timestamp using `os.time`.
 
 ### serverEndPoint
 
@@ -89,6 +92,13 @@ Edit `releaseStreams.json` to suit your needs.
 In `config.json` configure only the `activeReleaseStream` to the one you wish your players to start with as a fallback, do not configure `activeVersion`.  
 Zip, rename and possibly fuse the updater for release as usual.  
 In general it is advisable to embed a fallback version.
+
+## Switching release streams
+
+After determining the startup version, the updater restarts from scratch and loads up with the conf of the game.  
+Before doing so it sets the `GAME_UPDATER` and `GAME_UPDATER_STATES`.  
+As the restart is indeed a full restart, if you wish to make release stream switching available in your game, you need to call `GAME_UPDATER:init()` to have the updater read its configurations and installed versions. You can then use functions as defined in `updater/gameUpdater.lua` to retrieve information about remote and installed versions.  
+The updater uses love threads so if you do anything online related, you should make sure to call `update` on the updater as otherwise it will never update with the results of the threads.
 
 ## Embedding a fallback version
 
