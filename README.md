@@ -1,5 +1,5 @@
 ~~A somewhat generic updater for love games without dependencies, mostly intended for games with an open/free license.~~  
-The updater for the game Panel Attack. You can adapt it for other love games relatively easily.
+The updater for the game Panel Attack. You can probably adapt it for other love games relatively easily.
 Some of the options may seem impractical, alien and overly specific for how bad of a solution they present.  
 They were (at least partially) implemented to serve the predecessor of this tool without having to change the server side of things in the same go in order to let users migrate to the new updater at their own pace.
 
@@ -34,7 +34,7 @@ The `default` key specifies which release stream the updater should try to use i
             }
         }
     ],
-    "default": "stable"
+    "default": "releaseStream2"
 }
 ```
 
@@ -106,7 +106,8 @@ In case of your players not having internet access the first time they open your
 To embed a version of your game, create a directory with the name of the active release stream chosen in your `config.json` at the top level.  
 Inside this directory, create another directory that holds the minimum possible version for the release stream's versioning type. For semantic versioning this would be `0.0.0-norelease` or similar, for timestamp it would be `0`.
 Put your .love or .zip file inside the folder.  
-The updater will identify this embedded version as the base version for the release stream and download the most recent version to start in its stead if it can find one on first startup. If an update is not successful, it will boot with the embedded version.
+The updater will identify this embedded version as the base version for the release stream and download the most recent version to start in its stead if it can find one on first startup. If an update is not successful, it will boot with the embedded version.  
+Usually you will want to embed a fallback version for the release stream you use as your default fallback as the embedded version is the only one that cannot be removed.
 
 ## Making an informed decision on externalstorage on Android
 
