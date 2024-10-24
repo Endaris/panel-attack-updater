@@ -38,6 +38,9 @@ local filesystem = {}
 function filesystem.getAvailableVersions(versionProcessor, url, prefix)
   local versions = {}
   local escapedPrefix = helpers.escapeSpecialCharacters(prefix)
+  if url:sub(-1) ~= "/" then
+    url = url .. "/"
+  end
 
   local status, body, headers = https.request(url, {method = "GET", headers = { ["user-agent"] = love.filesystem.getIdentity()}})
 

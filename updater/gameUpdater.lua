@@ -144,6 +144,14 @@ local function processOngoingDownloads(self)
           table.insert(self.releaseStreams[version.releaseStream.name].installedVersions, version)
           self:onDownloaded(version)
         else
+          -- if we failed to download it, we should no longer consider it available
+          for i = #self.releaseStreams[version.releaseStream.name].availableVersions, 1, -1 do
+            if version == self.releaseStreams[version.releaseStream.name].availableVersions[i] then
+              table.remove(self.releaseStreams[version.releaseStream.name].availableVersions, i)
+            end
+          end
+          -- also remove its directory since it will be empty
+          love.filesystem.remove(self.path .. version.releaseStream.name .. "/" .. version.version)
           logger:log("Download of " .. version.url .. " unsuccessful with status " .. result.status)
           for key, value in pairs(result.headers) do
             logger:log("Header: " .. key .. " | Value: " .. value)
