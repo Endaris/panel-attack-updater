@@ -13,8 +13,6 @@ return {
     '.gitignore',
     '.vscode',
     'https',
-    'panel11.ico',
-    'panel11.png',
   },
   icon = 'icon.png', -- 256x256px PNG icon for game, will be converted for you
 
