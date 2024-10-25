@@ -252,7 +252,6 @@ function GameUpdater:launch(version)
     self.activeVersion = version
     self:writeLaunchConfig(version)
     logger:log("Launching version " .. version.version .. " of releaseStream " .. version.releaseStream.name)
-    pcall(logger.write, logger)
     love.event.restart({ restartSource = "updater", startUpFile = version.path})
   end
 end

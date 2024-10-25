@@ -111,6 +111,6 @@ function love.threaderror(thread, errorstr)
 end
 
 
-function love.quit()
-  logger:write()
+function love.quit(args)
+  pcall(logger.write, logger)
 end

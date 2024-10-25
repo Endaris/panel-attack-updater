@@ -12,7 +12,9 @@ return {
     '.DS_Store',
     '.gitignore',
     '.vscode',
-    'https'
+    'https',
+    'panel11.ico',
+    'panel11.png',
   },
   icon = 'icon.png', -- 256x256px PNG icon for game, will be converted for you
 
