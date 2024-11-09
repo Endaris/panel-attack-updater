@@ -107,8 +107,9 @@ function GameUpdater:init()
     end
   end
 
+  -- this can happen if the releaseStream got removed by an update
   if self.activeReleaseStream == nil then
-    error("Invalid release stream " .. activeReleaseStreamName .. " in launch.json")
+    self.activeReleaseStream = self.defaultReleaseStream
   end
 end
 
