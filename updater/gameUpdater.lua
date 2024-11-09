@@ -12,7 +12,7 @@ local GameUpdater = {
   releaseThreads = {},
   onDownloadedCallbacks = {},
   state = GAME_UPDATER_STATES.idle,
-  version = semanticVersion.toVersion("1.0")
+  version = semanticVersion.toVersion("1.1")
 }
 
 function GameUpdater:onDownloaded(version)
@@ -258,8 +258,11 @@ end
 
 -- tries to remove the specified version from disk
 -- returns true if it was found and removed
--- returns false if the version could not be found (and thus not removed)
+-- returns false if the version could not be removed
 function GameUpdater:removeInstalledVersion(versionInfo)
+  if self.activeVersion.version == versionInfo then
+    return false
+  end
   if versionInfo and versionInfo.releaseStream and self.releaseStreams[versionInfo.releaseStream.name] then
     local releaseStream = self.releaseStreams[versionInfo.releaseStream.name]
     for versionString, installedVersion in pairs(releaseStream.installedVersions) do

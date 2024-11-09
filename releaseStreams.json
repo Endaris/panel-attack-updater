@@ -20,16 +20,6 @@
                 "url": "https://panelattack.com/downloads/updates/beta",
                 "prefix":"panel-beta-"
             }
-        },
-        {
-            "name":"canary",
-            "versioningType":"timestamp",
-            "serverEndPoint":
-            {
-                "type":"github",
-                "repository":"panel-attack/panel-attack",
-                "prefix":"canary-"
-            }
         }
     ],
     "default": "stable"
