@@ -110,6 +110,7 @@ function GameUpdater:init()
   -- this can happen if the releaseStream got removed by an update
   if self.activeReleaseStream == nil then
     self.activeReleaseStream = self.defaultReleaseStream
+    self.activeVersion = self.getLatestInstalledVersion(self.activeReleaseStream)
   end
 end
 
