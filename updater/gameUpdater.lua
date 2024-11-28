@@ -244,6 +244,19 @@ function GameUpdater:updateAvailable(releaseStream)
   end
 end
 
+local function launchWithVersion(version)
+  package.loaded.main = nil
+  package.loaded.conf = nil
+  love.conf = nil
+  love.restart = { restartSource = "updater", startUpFile = version.path}
+  love.init()
+  -- command line args for love automatically are saved inside a global args table
+  love.load()
+
+  -- cleaner solution but meh
+  --love.event.restart({ restartSource = "updater", startUpFile = version.path})
+end
+
 function GameUpdater:launch(version)
   if self.downloadThreads[version] then
     error("Trying to launch a version that is still getting downloaded")
@@ -254,7 +267,6 @@ function GameUpdater:launch(version)
     self.activeVersion = version
     self:writeLaunchConfig(version)
     logger:log("Launching version " .. version.version .. " of releaseStream " .. version.releaseStream.name)
-    love.event.restart({ restartSource = "updater", startUpFile = version.path})
   end
 end
 
