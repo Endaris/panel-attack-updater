@@ -267,6 +267,7 @@ function GameUpdater:launch(version)
     self.activeVersion = version
     self:writeLaunchConfig(version)
     logger:log("Launching version " .. version.version .. " of releaseStream " .. version.releaseStream.name)
+    launchWithVersion(version)
   end
 end
 

@@ -5,6 +5,20 @@ if love.system.getOS() == 'OS X' and love.filesystem.isFused() then
 end
 -- for debugging, use love 12 so that https is automatically available in the correct location
 
+-- by tying the inner loop to runInternal it can be overwritten later on
+local loveRun = love.run
+function love.run()
+  love.runInternal = loveRun()
+  return function()
+    if love.runInternal then
+      local shouldQuit, restartArg = love.runInternal()
+      if shouldQuit then
+        return shouldQuit, restartArg
+      end
+    end
+  end
+end
+
 if os.getenv("LOCAL_LUA_DEBUGGER_VSCODE") == "1" then
   require("lldebugger").start()
 end
