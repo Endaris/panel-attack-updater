@@ -1,11 +1,5 @@
 love.thread.getChannel("logging"):push("entered fetch versions thread (FVT)")
--- for macos we need to append the source directory to use our .so file in 
--- the exported version
-require("love.system")
-if love.system.getOS() == 'OS X' and love.filesystem.isFused() then
-  package.cpath = package.cpath .. ';' .. love.filesystem.getSourceBaseDirectory() .. '/?.so'
-  love.thread.getChannel("logging"):push("FVT: on Mac, sourcebasedirectory is " .. love.filesystem.getSourceBaseDirectory())
-end
+
 local loadReleaseStream = require("updater.releaseStream")
 
 local releaseStreamConfig = ...

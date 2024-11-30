@@ -247,19 +247,26 @@ end
 local function launchWithVersion(version)
   local _, _, vendor, _ = love.graphics.getRendererInfo( )
 
-  if love.system.getOS() == "Windows" and (vendor == "ATI Technologies Inc." or vendor == "AMD") then
-    -- there is a silent crash lua panic issue on windows 10 with AMD gpus if the game is relaunched via restart
-    -- at least that's the anecdotal evidence
-    package.loaded.main = nil
-    package.loaded.conf = nil
-    love.conf = nil
-    love.restart = { restartSource = "updater", startUpFile = version.path }
-    love.init()
-    -- command line args for love automatically are saved inside a global args table
-    love.load(arg)
+  local loveMajor = love.getVersion()
+
+  if loveMajor >= 12 then
+    if love.system.getOS() == "Windows" and (vendor == "ATI Technologies Inc." or vendor == "AMD") then
+      -- there is a silent crash lua panic issue on windows 10 with AMD gpus if the game is relaunched via restart
+      -- at least that's the anecdotal evidence
+      package.loaded.main = nil
+      package.loaded.conf = nil
+      love.conf = nil
+      love.restart = { restartSource = "updater", startUpFile = version.path }
+      love.init()
+      -- command line args for love automatically are saved inside a global args table
+      love.load(arg)
+    else
+      -- cleaner solution but meh
+      love.event.restart({ restartSource = "updater", startUpFile = version.path })
+    end
   else
-    -- cleaner solution but meh
-    love.event.restart({ restartSource = "updater", startUpFile = version.path })
+    love.filesystem.write("updater/startUp.txt", "updater\n" .. version.path)
+    love.event.quit("restart")
   end
 end
 
