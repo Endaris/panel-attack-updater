@@ -1,4 +1,12 @@
 local externalstorage = true
+local identity = "Panel Attack"
+
+if os.getenv("LOCAL_LUA_DEBUGGER_VSCODE") == "1" then
+  require("lldebugger").start()
+end
+
+love.filesystem._setAndroidSaveExternal(externalstorage)
+love.filesystem.setIdentity(identity)
 
 -- read startup file
 if love.filesystem.getInfo("updater/startUp.txt", "file") then
@@ -10,6 +18,7 @@ if love.filesystem.getInfo("updater/startUp.txt", "file") then
     elseif i == 2 then
       love.restart.startUpFile = line
     end
+    i = i + 1
   end
   love.filesystem.remove("updater/startUp.txt")
 end
@@ -17,8 +26,6 @@ end
 
 function love.conf(t)
   if love.restart then
-    love.filesystem._setAndroidSaveExternal(externalstorage)
-    love.filesystem.setIdentity("Panel Attack")
     if love.filesystem.mount(love.restart.startUpFile, '') then
       -- the mount prepends the priority list of locations to check for file paths
       -- this means the next require will prefer the mounted directory
@@ -32,9 +39,9 @@ function love.conf(t)
       GAME_UPDATER = require("updater.gameUpdater")
     end
   else
-    t.identity = "Panel Attack" -- The name of the save directory (string)
+    t.identity = identity -- The name of the save directory (string)
     t.appendidentity = false -- Search files in source directory before save directory (boolean)
-    t.version = "12.0" -- The LÖVE version this game was made for (string)
+    t.version = "11.5" -- The LÖVE version this game was made for (string)
     t.console = false -- Attach a console (boolean, Windows only)
     t.accelerometerjoystick = false -- Enable the accelerometer on iOS and Android by exposing it as a Joystick (boolean)
     t.externalstorage = externalstorage -- True to save files (and read from the save directory) in external storage on Android (boolean)
@@ -43,7 +50,7 @@ function love.conf(t)
     t.audio.mic = false -- Request and use microphone capabilities in Android (boolean)
     t.audio.mixwithsystem = false -- Keep background music playing when opening LOVE (boolean, iOS and Android only)
 
-    t.window.title = "Panel Attack - Auto Updater" -- The window title (string)
+    t.window.title = "Panel Attack - Updater" -- The window title (string)
     t.window.icon = "icon.png" -- Filepath to an image to use as the window's icon (string)
     t.window.width = 800 -- The window width (number)
     t.window.height = 600 -- The window height (number)

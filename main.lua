@@ -19,9 +19,6 @@ function love.run()
   end
 end
 
-if os.getenv("LOCAL_LUA_DEBUGGER_VSCODE") == "1" then
-  require("lldebugger").start()
-end
 --require("updater.tests.tests")
 
 local logger = require("updater.logger")
