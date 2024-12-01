@@ -1,4 +1,3 @@
-require("updater.macCompatibility")
 -- for debugging, use love 12 so that https is automatically available in the correct location
 -- or copy the https binary for your OS to the root of the project
 

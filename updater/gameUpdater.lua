@@ -1,3 +1,4 @@
+require("updater.macCompatibility")
 local lfs = love.filesystem
 local json = require("updater.libs.json")
 local loadReleaseStream = require("updater.releaseStream")
