@@ -1,9 +1,6 @@
---- for macos we need to append the source directory to use our .so file in 
--- the exported version
-if love.system.getOS() == 'OS X' and love.filesystem.isFused() then
-  package.cpath = package.cpath .. ';' .. love.filesystem.getSourceBaseDirectory() .. '/?.so'
-end
+require("updater.macCompatibility")
 -- for debugging, use love 12 so that https is automatically available in the correct location
+-- or copy the https binary for your OS to the root of the project
 
 -- by tying the inner loop to runInternal it can be overwritten later on
 local loveRun = love.run

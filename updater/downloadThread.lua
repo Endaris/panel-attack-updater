@@ -1,3 +1,5 @@
+require("updater.macCompatibility")
+
 local https = require("https")
 
 local url, filepath = ...

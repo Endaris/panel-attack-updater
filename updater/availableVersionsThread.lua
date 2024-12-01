@@ -1,5 +1,7 @@
 love.thread.getChannel("logging"):push("entered fetch versions thread (FVT)")
 
+require("updater.macCompatibility")
+
 local loadReleaseStream = require("updater.releaseStream")
 
 local releaseStreamConfig = ...
