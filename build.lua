@@ -6,7 +6,7 @@ return {
   developer = 'Panel Attack Devs', -- dev name used in metadata of the file
   --output = '../dev-build', -- output location for your game, defaults to $SAVE_DIRECTORY
   version = '1.0', -- 'version' of your game, used to make a version folder in output
-  love = '11.5', -- version of LÖVE to use, must match github releases
+  love = '12.0', -- version of LÖVE to use, must match github releases
   ignore = { -- folders/files to ignore in your project
     'updater/tests',
     '.DS_Store',
@@ -20,14 +20,14 @@ return {
   -- optional settings:
   use32bit = false, -- set true to build windows 32-bit as well as 64-bit
 
-  libs = {
-  -- files to place in output directly rather than fuse
-  -- can specify per platform or "all"
-   windows = {'https/win64/https.dll'},
-   macos = {'https/macos/https.so'},
-   linux = {'https/linux/https.so'},
-   all = {}
-  },
+  -- libs = {
+  -- -- files to place in output directly rather than fuse
+  -- -- can specify per platform or "all"
+  --  windows = {'https/win64/https.dll'},
+  --  macos = {'https/macos/https.so'},
+  --  linux = {'https/linux/https.so'},
+  --  all = {}
+  -- },
 
-  platforms = {'linux', 'windows, macos'} -- set if you only want to build for a specific platform
+  platforms = {'linux', 'windows', 'macos'} -- set if you only want to build for a specific platform
 }

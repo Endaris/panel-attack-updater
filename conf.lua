@@ -93,4 +93,6 @@ function love.conf(t)
     t.modules.video = false -- Enable the video module (boolean)
     t.modules.window = true -- Enable the window module (boolean)
   end
+
+  t.renderers = {"opengl"}
 end

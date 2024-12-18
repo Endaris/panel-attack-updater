@@ -5,5 +5,4 @@
 require("love.system")
 if love.system.getOS() == 'OS X' and love.filesystem.isFused() then
   package.cpath = package.cpath .. ';' .. love.filesystem.getSourceBaseDirectory() .. '/?.so'
-  love.thread.getChannel("logging"):push("New DL thread on Mac, sourcebasedirectory is " .. love.filesystem.getSourceBaseDirectory())
 end
