@@ -136,7 +136,7 @@ local function processOngoingDownloads(self)
     local threadError = thread:getError()
     local result = love.thread.getChannel(version.url):pop()
     if threadError or result then
-      thread:release()
+      thread:wait()
       self.downloadThreads[version] = nil
       if threadError then
         logger:log("Failed downloading version for " .. version.releaseStream.name)
@@ -171,7 +171,7 @@ local function processOngoingAvailableVersionsFetches(self)
     local threadError = thread:getError()
     local result = love.thread.getChannel(releaseStreamName):pop()
     if threadError or result then
-      thread:release()
+      thread:wait()
       self.releaseThreads[releaseStreamName] = nil
       if threadError then
         logger:log("Failed fetching available versions for " .. releaseStreamName)
